@@ -1,0 +1,142 @@
+﻿@model IEnumerable<TempratureData>
+
+
+
+<h1> Ladda upp fil</h1>
+
+
+<form asp-controller="TempratureDatas" method="post" asp-action="Upload" enctype="multipart/form-data">
+
+    <input type="file" name="file" />
+
+    <hr />
+
+    <button type="submit">Upload</button>
+
+
+</form>
+
+@{ 
+    var q1 = Model.GroupBy(c => new { c.Date.Date, Location = c.Location })
+                .Select(g => new TempratureData
+                {
+                    Date = g.Key.Date,
+                    Location = g.Key.Location,
+                    Temperature = Math.Round(g.Average(p => p.Temperature), 1),
+                    Humidity = Convert.ToInt32(g.Average(p => p.Humidity)),
+                    MouldRisk = Math.Round(g.Average(p => p.MouldRisk))
+
+                }
+
+
+
+                ).OrderBy(x => x.Location).ThenByDescending(x => x.Date);
+}
+
+
+
+@if (q1.Count() > 0)
+{
+
+    <h3> Du har laddat upp följande till databasen</h3>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Date)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Temperature) °C
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Humidity)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MouldRisk) %
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Location)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in q1.Where(x => x.Location == "Inne"))
+            {
+                <tr>
+                    <td>
+                        @item.Date.ToShortDateString()
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Temperature) °C
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Humidity) 
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MouldRisk) %
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Location)
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+    <br />
+    <br />
+    <h2>Temperaturer Utomhus</h2>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Date)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Temperature) °C
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Humidity)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MouldRisk) %
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Location)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+
+
+
+
+
+        <tbody>
+            @foreach (var item in q1.Where(x => x.Location == "Ute"))
+            {
+                <tr>
+                    <td>
+                        @item.Date.ToShortDateString()
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Temperature) °C
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Humidity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MouldRisk) %
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Location)
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+}

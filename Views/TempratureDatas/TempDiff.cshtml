@@ -1,0 +1,65 @@
+﻿@model IEnumerable<DatabasFinal.Models.Tempdiff>
+
+@{
+    ViewData["Title"] = "TempDiff";
+
+
+
+
+
+
+}
+
+<h2>Temperatur differens mellan ute och inne</h2>
+
+
+<br />
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                <a asp-action="TempDiff" asp-route-sortOrder="@ViewData["TempSortParam"]"> Temperaturdifferens °C</a>
+            </th>
+            <th>
+                Temp Inne
+            </th>
+            <th>
+                Temp Ute
+            </th>
+            
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+      
+
+       
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.Date.ToShortDateString()
+                </td>
+                <td>
+                    @Math.Abs(Math.Round(item.tempdifferense, 1)) °C
+                </td>
+
+                <td>
+                    @item.TempInside °C
+                </td>
+                <td>
+                    @item.TempOutside °C
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+

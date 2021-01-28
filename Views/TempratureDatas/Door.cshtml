@@ -1,0 +1,64 @@
+﻿@model IEnumerable<DatabasFinal.Models.DoorTime>
+
+@{
+    ViewData["Title"] = "Door";
+}
+
+<h1>Dörren Öppen</h1>
+
+
+<br />
+<h2>Inomhus</h2>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a asp-action="Door" asp-route-sortOrder="@ViewData["dateSortParam"]"> Datum: </a>
+            </th>
+            <th>
+                <a asp-action="Door" asp-route-sortOrder="@ViewData["doorSortParam"]"> Minuter Då dörren misstänks vara öppen </a>
+            </th>
+            <th>
+                Inne Temp
+            </th>
+            <th>
+                Ute Temp
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+
+    @foreach (var item in Model)
+    {
+
+
+        <tbody>
+            <tr>
+                <td>
+                     @item.DateTime.ToShortDateString()
+                </td>
+
+                <td>
+                    @item.timeSpan.TotalMinutes
+                <td>
+                    @item.AvgTempIn
+                </td>
+
+                <td>
+                    @item.AvgTempOut
+                </td>
+                
+                <td>
+
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    }
+</table>
+        

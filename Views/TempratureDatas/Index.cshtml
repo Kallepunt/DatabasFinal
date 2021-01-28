@@ -1,0 +1,130 @@
+﻿@model IEnumerable<DatabasFinal.Models.TempratureData>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Tempdata</h1>
+<br />
+<h2>Inomhus</h2>
+
+
+<form asp-action="SearchByDate">
+
+
+    <input type="date" name="firstDate" value="2016-05-31" />
+    <input type="date" name="secondDate" value="2016-05-31" />
+    <input type="submit" name="submit" value="Search" />
+
+
+</form>
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParam"]"> @Html.DisplayNameFor(model => model.Date)</a>
+               
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["TempSortParam"]"> @Html.DisplayNameFor(model => model.Temperature)°C</a>
+               
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["HumidSortParam"]"> @Html.DisplayNameFor(model => model.Humidity)</a>
+               
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["MouldSortParam"]"> @Html.DisplayNameFor(model => model.MouldRisk)%</a>
+                
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Location)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Where(x => x.Location == "Inne"))
+        {
+            <tr>
+                <td>
+                    @item.Date.ToShortDateString()
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Temperature) °C
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Humidity) 
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MouldRisk) %
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Location)
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+<br />
+<br />
+<h2>Temperaturer Utomhus</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParam"]"> @Html.DisplayNameFor(model => model.Date)</a>
+
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["TempSortParam"]"> @Html.DisplayNameFor(model => model.Temperature)°C</a>
+
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["HumidSortParam"]"> @Html.DisplayNameFor(model => model.Humidity)</a>
+
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["MouldSortParam"]"> @Html.DisplayNameFor(model => model.MouldRisk)%</a>
+
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Location)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+
+
+
+
+
+    <tbody>
+        @foreach (var item in Model.Where(x => x.Location == "Ute"))
+        {
+            <tr>
+                <td>
+                    @item.Date.ToShortDateString()
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Temperature) °C
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Humidity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MouldRisk) %
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Location)
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>

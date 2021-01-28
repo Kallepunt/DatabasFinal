@@ -1,0 +1,143 @@
+﻿@model IEnumerable<DatabasFinal.Models.TempratureData>
+
+@{
+    ViewData["Title"] = "Metrologiskvinter";
+}
+
+
+<h1>Metrologisk höst och vinter</h1>
+
+<br />
+<br />  
+
+
+
+<h2>Datum för Metroligisk vinter</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Temperature) °C
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+
+
+
+
+
+    <tbody>
+        @{ int days = 0;
+            DateTime date = DateTime.Now;
+
+            foreach (var item in Model.Where(x => x.Location == "Ute"))
+            {
+                if (item.Temperature <= 0)
+                {
+                    if (days == 0)
+                    {
+                        date = item.Date;
+                    }
+
+                    days++;
+                }
+
+                else if(item.Temperature > 0)
+                {
+                    days = 0;
+                }
+
+                if (days == 5)
+                {
+
+
+
+                    <tr>
+                        <td>
+                            @item.Date.ToShortDateString()
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Temperature) °C
+                        </td>
+
+
+                    </tr>
+                    break;
+                }
+
+
+
+            }
+        }
+
+    </tbody>
+</table>
+
+<h2>Datum för metrologisk höst</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Temperature) °C
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+
+
+
+    <tbody>
+        @{ int days2 = 0;
+            DateTime date2 = DateTime.Now;
+
+            foreach (var item in Model.Where(x => x.Location == "Ute"))
+            {
+                if (item.Temperature >= 0 && item.Temperature <= 10 )
+                {
+                    if (days2 == 0)
+                    {
+                        date = item.Date;
+                    }
+
+                    days2++;
+                }
+
+                else
+                {
+                    days2 = 0;
+                }
+
+                if (days2 == 5)
+                {
+
+
+
+                    <tr>
+                        <td>
+                            @item.Date.ToShortDateString()
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Temperature) °C
+                        </td>
+
+
+                    </tr>
+                    break;
+                }
+
+
+
+            }
+        }
+
+    </tbody>
+</table>
